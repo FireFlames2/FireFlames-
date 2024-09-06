@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="sign.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css">
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="jquery-3.6.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+    <container id="container" class="sign-up">
+        <h1>Sign Up</h1>
+        <form class="signUp" id="signUpForm">
+            <div class="name">
+                <input type="text" placeholder="First Name" id="firstName" required>
+                <input type="text" placeholder="Last Name" id="lastName" required>
+            </div>
+            <div class="email">
+                <input type="email" placeholder="Email" id="email" required>
+            </div>
+            <div class="password">
+                <input type="password" placeholder="Password" id="password" required>
+                <p class="showPass">🐵</p>
+            </div>
+            <div class="confirmPassword">
+                <input type="password" placeholder="Confirm Password" id="confirmPassword" required>
+                
+            </div>
+            <div class="agreement">
+                <input type="checkbox" name="agreement" id="agreement" required>
+                <label for="agreement">I Agree with <span>privacy</span> and <span>policy</span></label>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+        <p> Already have an account? <span>Sign-In</span></p>
+    </container>
+    
+    <script>
+        $(document).ready(function() {
+            
+            const showPassBtn = $('.showPass');
+            const passwordInput = $('input[type="password"]');
+
+            showPassBtn.on('click', function() {
+                const inputType = passwordInput.attr('type');
+                if (inputType === 'password') {
+                    passwordInput.attr('type', 'text');
+                    $(this).text('🙈');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    $(this).text('🐵');
+                }
+            });
+
+            
+ $('span').on('click', function() {
+        window.location.href = `index.html`;
+    });
+        
+           const firebaseConfig = {
+  apiKey: "AIzaSyAQYomS9h5I4wNkKvbBwSyVBFzw-6-Pdr8",
+  authDomain: "fireflames-1.firebaseapp.com",
+  databaseURL: "https://fireflames-1-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "fireflames-1",
+  storageBucket: "fireflames-1.appspot.com",
+  messagingSenderId: "266802925448",
+  appId: "1:266802925448:web:08c8531cba0e65595f343d",
+  measurementId: "G-D1LFG5S2VT"
+};
+
+firebase.initializeApp(firebaseConfig);
+            let database = firebase.database();
+            let auth = firebase.auth();
+
+            document.getElementById('signUpForm').addEventListener('submit', submitForm);
+
+            function submitForm(e) {
+                e.preventDefault();
+
+                let firstName = getInputVal('firstName');
+                let lastName = getInputVal('lastName');
+                let email = getInputVal('email');
+                let password = getInputVal('password');
+                let confirmPassword = getInputVal('confirmPassword');
+                let agreement = document.getElementById('agreement').checked;
+
+                if (firstName && lastName && email && password && confirmPassword && agreement) {
+                    if (password === confirmPassword) {
+                        if (isValidPassword(password)) {
+                            checkEmailExistence(email, function(exists) {
+                                if (!exists) {
+                                    auth.createUserWithEmailAndPassword(email, password)
+                                        .then((userCredential) => {
+                                            const user = userCredential.user;
+                                            saveUserData(firstName, lastName, email, password, user.uid);
+                              window.location.href = `main.html?uid=${user.uid}`;              document.getElementById('signUpForm').reset();
+                                        })
+                                        .catch((error) => {
+                                            alert(error.message);
+                                        });
+                                } else {
+                                    alert('Email already exists. Please try a different email.');
+                                }
+                            });
+                        } else {
+                            alert('Password must be at least 8 characters long, contain at least one uppercase letter and one special character.');
+                        }
+                    } else {
+                        alert('Password and Confirm Password do not match.');
+                    }
+                } else {
+                    alert('Please fill in all required fields.');
+                }
+            }
+
+            function getInputVal(id) {
+                return document.getElementById(id).value;
+            }
+
+            function saveUserData(firstName, lastName, email, password, uid) {
+                database.ref('User/' + uid).set({
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    password: password
+                });
+            }
+
+            function checkEmailExistence(email, callback) {
+                database.ref('User').orderByChild('email').equalTo(email).once('value', function(snapshot) {
+                    callback(snapshot.exists());
+                });
+            }
+
+            function isValidPassword(password) {
+                const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
+                return passwordRegex.test(password);
+            }
+
+           
+        });
+        
+        
+    </script>
+</body>
+</html>

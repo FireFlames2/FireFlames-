@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+@import url('https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    
+}
+body {
+    height: 100svh;
+    width: 100svw;
+    background: #25273E;
+    font-family: 'Quicksand', sans-serif;
+   overflow: hidden;
+}
+
+.loading{
+   height: 100%;
+   width: 100%;
+   overflow: hidden;
+   display: grid;
+   place-items:center;
+}
+
+.container{
+   display: grid;
+   grid-template-columns: 1fr;
+   grid-template-rows: 40px 1fr 40px;
+   grid-column-gap: 0px;
+   grid-row-gap: 0px;
+   height: 100svh;
+   width: svw;
+   background: #111820;
+}
+
+.main h1{
+   display: none;
+}
+
+.main button{
+   display: none;
+}
+
+header{
+   height: 40px;
+   width: 100svw;
+   display: grid;   
+   grid-template-columns: 1fr 50px;
+   grid-template-rows: 1fr;
+   grid-column-gap: 0px;
+   grid-row-gap: 0px;
+   color: #fff;
+   background: #1B2531;
+}
+a{
+   color: #fff;
+   text-decoration: none;
+   transition: color 0.3s ease;
+   display: flex;
+   align-items: center;
+}
+
+.logo{
+   display: grid;
+   grid-template-columns:  50px 1fr;
+   grid-template-rows: 1fr;
+   grid-column-gap: 0px;
+   grid-row-gap: 0px;
+   place-items: start;
+   align-items: center;
+   
+}
+
+.logo img{
+   height: 40px;
+   width: 40px;
+}
+
+.chat-i{
+   display: grid;
+   place-items: center;
+   
+}
+.chat{
+   font-size: 20px;
+}
+
+
+footer{
+   height: 40px;
+   width: 100svw;
+   display: grid;   
+   grid-template-columns: repeat(5,1fr);
+   grid-template-rows: 1fr;
+   grid-column-gap: 0px;
+   grid-row-gap: 0px;
+   color: #fff;
+   place-items: center;
+   font-size: 20px;
+   background: #1B2531;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

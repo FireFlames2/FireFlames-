@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="jquery-3.6.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css">
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="jquery-3.6.1.min.js"></script>
+</head>
+<body>
+   
+   
+   <div class="loading">
+      
+         <svg width="30svh" height="30svh" viewBox="0 0 200 200">
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur" />
+      <feMerge>
+        <feMergeNode in="coloredBlur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <circle cx="100" cy="100" r="80" stroke="#F9F99e" stroke-width="5" fill="none" filter="url(#glow)">
+    <animate attributeName="stroke" values="#F9F99e;#ca64fa;#de1fae;#fa5aad;#1fde75" dur="5s" repeatCount="indefinite" />
+  </circle>
+  <image xlink:href="logo.png" x="40" y="40" width="120" height="120" />
+</svg>
+
+            
+  
+      
+   </div>
+   
+   
+    <div class="main">
+       
+     <h1>Welcome, <span id="userName"></span></h1>
+        <button id="logoutBtn">Logout</button>
+    
+    </div> 
+
+ 
+ 
+ 
+ 
+ 
+ <div class="container">
+    <header>
+       <div class="logo"><img src="logo.png" alt=""><p>FireFlames</p></div>
+   <div class="chat-i"><ion-icon class="chat" name="chatbubble-ellipses-outline"></ion-icon></div>
+ </header>
+ 
+ 
+ <main>
+    
+ </main>
+ 
+ 
+ <footer>
+    <a>
+    <ion-icon name="planet-outline"></ion-icon>
+    </a>
+    
+    <a>
+    <ion-icon name="code-slash-outline"></ion-icon>
+    
+    </a>
+    
+    
+    <a>
+    <ion-icon name="add-circle-outline"></ion-icon>
+    
+    </a>
+    
+    <a>
+    <ion-icon name="notifications-outline"></ion-icon>
+    
+    </a>
+    
+    <a>
+    <ion-icon name="person-circle-outline"></ion-icon>
+  </a> 
+    
+ </footer>
+ 
+    </div>
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+  apiKey: "AIzaSyAQYomS9h5I4wNkKvbBwSyVBFzw-6-Pdr8",
+  authDomain: "fireflames-1.firebaseapp.com",
+  databaseURL: "https://fireflames-1-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "fireflames-1",
+  storageBucket: "fireflames-1.appspot.com",
+  messagingSenderId: "266802925448",
+  appId: "1:266802925448:web:08c8531cba0e65595f343d",
+  measurementId: "G-D1LFG5S2VT"
+};
+        
+
+        firebase.initializeApp(firebaseConfig);
+
+        // Check if the user is signed in
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in
+                getUserData(user.uid);
+            } else {
+                // User is not signed in
+                window.location.href = "index.html"; // Replace with your sign-in page
+            }
+        });
+
+        // Get the user's name from the database
+        function getUserData(userId) {
+            const database = firebase.database();
+            const userRef = database.ref('User/' + userId);
+
+            userRef.once('value', (snapshot) => {
+                const userData = snapshot.val();
+                if (userData) {
+                    const firstName = userData.firstName || '';
+                    const lastName = userData.lastName || '';
+                    const userName = `${firstName} ${lastName}`.trim();
+                    document.getElementById('userName').textContent = userName || 'User';
+                } else {
+                    console.log('User data not found in the database');
+                }
+            }).catch((error) => {
+                console.error('Error fetching user data:', error);
+            });
+        }
+
+        // Logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        logoutBtn.addEventListener('click', () => {
+            firebase.auth().signOut()
+                .then(() => {
+                    window.location.href = "index.html"; // Replace with your sign-in page
+                })
+                .catch((error) => {
+                    console.error('Error signing out:', error);
+                });
+        });
+        
+        setTimeout(() => {
+            document.querySelector('.loading').style.display = 'none';
+            document.querySelector('.main').style.display = 'block';
+        }, 3000);
+        
+    </script>
+</body>
+</html>
+
+

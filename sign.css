@@ -1,0 +1,301 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+@import url('https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    
+}
+body {
+    height: 100%;
+    width: 100%;
+    background: #25273E;
+    font-family: 'Quicksand', sans-serif;
+}
+
+
+.signIn{
+   height: 100svh;
+   width: 100svw;
+   display: grid;
+   grid-template-columns: 1fr;
+   grid-template-rows: 1fr 2fr 1fr;
+   grid-column-gap: 0px;
+   grid-row-gap: 0px;
+   color: #fff;
+   place-items: center;
+}
+
+.sign-in{
+   height: 100%;
+   width: 80%;
+   display: grid;
+   grid-template-columns: 1fr;
+   grid-template-rows: repeat(4, 40px);
+   grid-column-gap: 0px;
+   grid-row-gap: 10px;
+}
+
+
+h1{
+   width: 80%;
+}
+
+.sign-in .email{
+   width: 100%;
+   height: 30px;
+   display: flex;
+   align-items: center;   
+}
+.sign-in .password{
+   width: 100%;
+   height: 30px;
+   display: flex;
+   align-items: center;   
+   padding-right: 50px;
+}
+
+.sign-in .password p{
+   position: absolute;
+   right: 12%;
+}
+.fa-lock,.fa-at{
+   position: absolute;
+   padding-left: 10px;
+}
+
+
+
+.sign-in input{
+   height: 30px;
+   width: 100%;
+   border-radius: 15px;
+   background: none;
+   outline: none;
+   border: 1.5px solid #694B63;
+   color: #fff;
+   padding-left: 30px;
+}
+
+.sign-in input:hover,
+.sign-up input:hover,
+.sign-up .name input:hover{
+   border: 1.5px solid #ff1569;  
+}
+
+.sign-in .remember{
+   width: 100%;
+   height: 60px;  
+   display: grid;
+   grid-template-columns: 20px 1fr 100px;
+   grid-template-rows: 1fr;
+   grid-column-gap: 0px;
+   grid-row-gap: 0px;
+   align-items: center;
+   font-size: 14px;
+}
+
+.sign-in .remember input[type='checkbox']{
+   height: 15px;
+   width: 15px;
+   background: none;
+}
+
+.sign-in .remember p{
+   color: #ec3b55;
+   padding: 5px;
+   width: 100px;
+   height: 30px;
+   font-size: 12px;
+   display: grid;
+   align-items: center;
+}
+      
+button{
+   background: #EC3B55;
+   border-radius: 20px;
+   height: 40px;
+   width: 100%;
+   border: none;
+   color: #fff;
+   font-family: Poppins , sans-serif;
+   font-size: 16px;
+}
+
+
+.signOther{
+   display: grid;
+   grid-template-columns: 1fr;
+   grid-template-rows: 20px 1fr 20px;
+   grid-column-gap: 0px;
+   grid-row-gap: 0px;
+   height: 100px;
+   width: 80%;
+   place-items:center;
+}
+
+.apps{
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   grid-template-rows: 1fr;
+   grid-column-gap: 8px;
+   grid-row-gap: 0px;
+   font-size: 20px;
+}
+
+
+span{
+   color: #EC3B55;
+   
+}
+a{
+   text-decoration: none;
+}
+
+iframe{
+   height: 100svh;
+   width: 100svw;
+   border: none;
+   position: absolute;
+   zIndex: 9;
+}
+
+
+
+.sign-up{
+   height: 100svh;
+   width: 100svw;
+   display: grid;
+   grid-template-columns: 1fr;
+   grid-template-rows: 1fr 2fr 1fr;
+   grid-column-gap: 0px;
+   grid-row-gap: 0px;
+   color: #fff;
+   place-items: center;
+}
+
+
+.signUp{
+   display: grid;
+   grid-template-columns: 1fr;
+   grid-template-rows: repeat(6, 40px);
+   grid-column-gap: 0px;
+   grid-row-gap: 0px;
+   width: 80%;
+   height: 100%;
+}
+
+
+.signUp .name{
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   grid-template-rows: 1fr;
+   grid-column-gap: 0px;
+   grid-row-gap: 0px;
+}
+
+.signUp .name input{
+   width: 90%;
+   height: 30px;
+   background: none;
+   border-radius: 15px;
+   outline: none;
+   border: 1.5px solid #694B63;
+   color: #fff;
+   padding-left: 10px;
+}
+
+
+
+.signUp .email{
+   width: 100%;
+   height: 30px;
+   display: flex;
+   align-items: center;   
+}
+.signUp .password{
+   width: 100%;
+   height: 30px;
+   display: flex;
+   align-items: center;   
+   padding-right: 50px;
+}
+
+.signUp input{
+   width: 100%;
+   height: 30px;
+   background: none;
+   border-radius: 15px;
+   outline: none;
+   border: 1.5px solid #694B63;
+   color: #fff;
+   padding-left: 10px;
+}
+
+.signUp .email{
+   width: 100%;
+   height: 30px;
+   display: flex;
+   align-items: center;   
+}
+.signUp .password{
+   width: 100%;
+   height: 30px;
+   display: flex;
+   align-items: center;   
+   padding-right: 50px;
+}
+
+.signUp .confirmPassword{
+   width: 100%;
+   height: 30px;
+   display: flex;
+   align-items: center;   
+   padding-right: 50px;
+}
+
+
+.signUp .password p{
+   position: absolute;
+   right: 12%;
+}
+
+.signUp .confirmPassword p{
+   position: absolute;
+   right: 12%;
+}
+
+.signUp .agreement{
+   width: 100%;
+   height: 40px;  
+   display: grid;
+   grid-template-columns: 20px 1fr;
+   grid-template-rows: 1fr;
+   grid-column-gap: 0px;
+   grid-row-gap: 0px;
+   align-items: center;
+   font-size: 14px;
+}
+
+.signUp .agreement input[type='checkbox']{
+   height: 15px;
+   width: 15px;
+   background: none;
+}
+
+
+::placeholder {
+  color: #fff;
+  font-family: Roboto, sans-serif;
+}
+
+
+
+

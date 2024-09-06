@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In Page</title>
+    <link rel="stylesheet" href="sign.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css">
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="jquery-3.6.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="path/to/your/script.js"></script>
+</head>
+<body>
+    <container class="signIn">
+        <h1>Sign In</h1>
+        <form class="sign-in">
+            <div class="email">
+                <i class="fa-solid fa-at"></i>
+                <input type="email">
+            </div>
+            <div class="password">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password">
+                <p class="showPass">🙈</p>
+            </div>
+            <div class="remember">
+                <input type="checkbox" name="Remember">
+                <label for="Remember">Remember me</label>
+                <p>Forgot Password</p>
+            </div>
+            <button>Sign in</button>
+        </form>
+        <div class="signOther">
+            <p>Or sign in with </p>
+            <div class="apps">
+                <div class="guest"><ion-icon name="person-add-outline"></ion-icon></div>
+                <div class="google"><ion-icon name="logo-google"></ion-icon></div>
+                <div class="gitHub"><ion-icon name="logo-github"></ion-icon></div>
+                 
+            </div>
+            <p> don't have account? <span>Sign-Up</span></p>
+        </div>
+    </container>
+   
+    <script>
+      const firebaseConfig = {
+  apiKey: "AIzaSyAQYomS9h5I4wNkKvbBwSyVBFzw-6-Pdr8",
+  authDomain: "fireflames-1.firebaseapp.com",
+  databaseURL: "https://fireflames-1-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "fireflames-1",
+  storageBucket: "fireflames-1.appspot.com",
+  messagingSenderId: "266802925448",
+  appId: "1:266802925448:web:08c8531cba0e65595f343d",
+  measurementId: "G-D1LFG5S2VT"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+$(document).ready(function() {
+    $("iframe").hide();
+
+    const showPassBtn = $('.showPass');
+    const passwordInput = $('input[type="password"]');
+
+    showPassBtn.on('click', function() {
+        const inputType = passwordInput.attr('type');
+        if (inputType === 'password') {
+            passwordInput.attr('type', 'text');
+            $(this).text('🐵');
+        } else {
+            passwordInput.attr('type', 'password');
+            $(this).text('🙈');
+        }
+    });
+
+    // Form Validation
+$('form.sign-in').on('submit', function(e) {
+    e.preventDefault(); // Prevent form submission
+
+    const emailInput = $('input[type="email"]');
+    const passwordInput = $('input[type="password"]');
+    const email = emailInput.length > 0 ? emailInput.val().trim() : '';
+    const password = passwordInput.length > 0 ? passwordInput.val().trim() : '';
+
+    // Perform validation
+    if (email === '' || password === '') {
+        alert('Please enter both email and password.');
+    } else {
+        // Perform sign-in with Firebase
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Sign-in successful
+                const user = userCredential.user;
+              
+                window.location.href = `main.html?uid=${user.uid}`;
+                // Reset form
+                $(this)[0].reset();
+            })
+            .catch((error) => {
+                // Sign-in failed
+                console.error('Sign-in failed:', error);
+                alert('Sign-in failed. Please check your credentials.');
+            });
+    }
+});
+
+    // Sign-Up Link
+    $('.signOther span').on('click', function() {
+        window.location.href = `sign-up.html`;
+    });
+
+    // Sign-in with providers
+    $('.guest').on('click', signInAnonymously);
+    $('.google').on('click', signInWithGoogle);
+    $('.gitHub').on('click', signInWithGitHub);
+
+    // Forgot Password
+    $('.remember p').on('click', sendPasswordResetEmail);
+});
+
+// Sign-in with anonymous provider
+function signInAnonymously() {
+    firebase.auth().signInAnonymously()
+        .then(() => {
+            window.location.href = `main.html?uid=${user.uid}`;             
+        })
+        .catch((error) => {
+            console.error('Anonymous sign-in failed:', error);
+        });
+}
+
+// Sign-in with Google provider
+function signInWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+        .then((result) => {
+            const user = result.user;
+            window.location.href = `main.html?uid=${user.uid}`;
+        })
+        .catch((error) => {
+            console.error('Google sign-in failed:', error);
+        });
+}
+
+// Sign-in with GitHub provider
+function signInWithGitHub() {
+    const provider = new firebase.auth.GithubAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+        .then((result) => {
+            const user = result.user;
+            window.location.href = `main.html?uid=${user.uid}`;
+        })
+        .catch((error) => {
+            console.error('GitHub sign-in failed:', error);
+        });
+}
+
+
+
+
+// Forgot Password
+function sendPasswordResetEmail() {
+    const emailInput = $('input[type="email"]');
+    const email = emailInput.length > 0 ? emailInput.val().trim() : '';
+
+    if (email === '') {
+        alert('Please enter your email address.');
+        return;
+    }
+
+    firebase.auth().sendPasswordResetEmail(email)
+        .then(() => {
+            alert('Password reset email sent. Please check your inbox.');
+        })
+        .catch((error) => {
+            console.error('Error sending password reset email:', error);
+            alert('Failed to send password reset email. Please try again later.');
+        });
+}
+
+// Update Password in Database
+function updatePasswordInDatabase(email) {
+    const user = firebase.auth().currentUser;
+    if (user) {
+        const userId = user.uid;
+        const databaseRef = firebase.database().ref('users/' + userId);
+
+        // Get the user's new password from Firebase Authentication
+        const newPassword = user.getIdToken(true)
+            .then((idToken) => {
+                return idToken.claims.firebase.sign_in_provider;
+            })
+            .then((provider) => {
+                if (provider === 'password') {
+                    return user.updatePassword(prompt('Please enter a new password:'));
+                } else {
+                    console.error('User signed in with a different provider');
+                }
+            })
+            .then((newPassword) => {
+                // Update the password in the database
+                databaseRef.update({
+                    password: newPassword
+                })
+                .then(() => {
+                    console.log('Password updated in database successfully');
+                })
+                .catch((error) => {
+                    console.error('Error updating password in database:', error);
+                });
+            })
+            .catch((error) => {
+                console.error('Error getting user credentials:', error);
+            });
+    } else {
+        console.error('No user is currently signed in');
+    }
+}
+
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+        // User is signed in, handle password reset
+        user.updateProfile({
+            // No need to update any profile data
+        }).then(() => {
+            // Profile updated successfully
+        }).catch((error) => {
+            // An error occurred
+            console.error('Error updating user profile:', error);
+        });
+
+        
+    } else {
+        // User is signed out
+    }
+});
+
+firebase.auth().onAuthStateChanged((user) => {
+    if (user && user.emailVerified) {
+        // User's password was reset
+        updatePasswordInDatabase(user.email);
+    }
+});
+
+
+
+        
+        
+    </script>
+</body>
+</html>
